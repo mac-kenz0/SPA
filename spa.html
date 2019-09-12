@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SPA Chapter 1 section 1.2.2</title>
+		<style type="text/css">
+			body{
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				background-color: #777;
+			}
+			#spa{
+				position: absolute;
+				top: 8px;
+				left: 8px;
+				right: 8px;
+				bottom: 8px;
+				border-radius: 8px 8px 0 8px;
+				background-color: #fff;
+			}
+			.spa-slider{
+				position: absolute;
+				right: 2px;
+				bottom: 0;
+				width: 300px;
+				height: 16px;
+				cursor: pointer;
+				border-radius: 8px 0 0 0;
+				background-color: #f00;
+			}
+		</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+</script>
+
+<script type='text/javascript'>
+		var spa = (function ($){
+			var 
+				configMap = {
+					extended_height: 434,
+					extended_title: 'Click to retract',
+					retracted_height: 16,
+					retracted_title: 'Click to expand',
+					template_html: '<div class="spa-slider"><\/div>'
+			},
+				$chatSlider, toggleSlider, onClickSlider, initModule;
+
+
+		
+			toggleSlider = function() {
+				var slider_height = $chatSlider.height();
+
+				//extend if fully retracted
+				if (slider_height === configMap.retracted_height) {
+					$chatSlider
+						.animate({height: configMap.extended_height})
+						.attr('title', configMap.extended_title);
+					return true;
+				}
+
+				//retract if fully extended
+				else if ( slider_height === configMap.extended_height){
+					$chatSlider
+						.animate({height : configMap.retracted_height})
+						.attr('title', configMap.retracted_title);
+					return true;
+				}
+
+				// do nothing if slider is in transition
+				return false;
+
+			};
+
+			/* event handler /onclickslider/
+			//recieves click even and calls toggleslider */	
+			onClickSlider = function (event) {
+				toggleSlider();
+				return false;
+			};
+
+	initModule = function ($container){
+				$container.html (configMap.temlplate_html);
+				$chatSlider = $container.find('.spa-slider');
+
+				$chatSlider
+					.attr('title', configMap.retracted_title)
+					.click(onClickSlider)
+
+				return true;
+
+				//render HTML
+				//initailize slider height and title
+				//bind the user click event to the event handler
+			};
+			return {initModule: initModule};
+			}($));
+			$(document).ready(
+				function() {spa.initModule($('#spa') );
+				console.log('xo'); 
+			
+
+			});	
+
+
+
+</script>
+	
+	</head>
+	<body>
+		<div id="spa">
+			<div class="spa-slider"></div>
+		</div>
+	</body>
+</html>
